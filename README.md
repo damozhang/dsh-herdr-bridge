@@ -10,11 +10,25 @@ A dsh plugin that bridges a [DeepSeek Harness](https://github.com/deepseek-ai/de
 
 ## Install
 
+From GitHub (published source):
+
 ```sh
-dsh plugin --profile web add <this-repo-or-local-path>
+dsh plugin --profile web add github:damozhang/dsh-herdr-bridge
 ```
 
-Then restart the dsh web server so the bundle is loaded.
+From npm (once published):
+
+```sh
+dsh plugin --profile web add dsh-herdr-bridge
+```
+
+From a local checkout (development):
+
+```sh
+dsh plugin --profile web add /path/to/herdr-bridge
+```
+
+Then restart the dsh web server so the bundle is loaded. To update to a newer version, run `add` again with the same source (pnpm caches; `remove` first if you switch sources). For active development, link the local checkout — source edits take effect on the next server restart — and switch back to the GitHub source to validate what others will install.
 
 ## Starting dsh so Herdr integration works (important)
 
