@@ -1,0 +1,4 @@
+# herdr-bridge plugin layer. Loaded as a bundle of the web profile.
+- insert:
+    - id: herdr-bridge
+      name: 'herdr-bridge'
