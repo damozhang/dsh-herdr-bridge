@@ -2,6 +2,8 @@
 
 A dsh plugin that bridges a [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) web session to [Herdr](https://herdr.dev), letting the dsh agent discover, start, prompt, and observe other agents (pi, claude, codex, ...) running under Herdr — all from inside the dsh web UI.
 
+![dsh-herdr-bridge demo](assets/screenshot.png)
+
 ## Requirements
 
 - dsh (npx `@deepseek-ai/dsh` or a local build) with the `web` profile
