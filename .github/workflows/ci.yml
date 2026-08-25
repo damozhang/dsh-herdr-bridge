@@ -15,11 +15,12 @@ jobs:
         with:
           version: 11
 
-      # engines.node is >=20 and @types/node is pinned to ^20, so the floor is
-      # what CI must prove.
+      # pnpm 11 requires node >=22.13, so this is the version pnpm runs on --
+      # not the plugin's supported floor. That floor is engines.node >=20, and
+      # it is enforced at type level by the pinned @types/node ^20 in typecheck.
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: pnpm
 
       - run: pnpm install --frozen-lockfile
