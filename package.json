@@ -22,7 +22,8 @@
   },
   "scripts": {
     "build": "tsc",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "check:dist": "pnpm run build && git diff --exit-code -- dist"
   },
   "dsh": {
     "bundle": {
@@ -30,12 +31,13 @@
     }
   },
   "peerDependencies": {
-    "@deepseek-ai/dsh-tools": ">=0.1.0-rc.6"
+    "@deepseek-ai/cordis": "^4.0.1",
+    "@deepseek-ai/dsh-tools": "^0.1.0-rc.6 || ^0.1.1-rc.0"
   },
   "devDependencies": {
     "@deepseek-ai/cordis": "^4.0.1",
     "@deepseek-ai/dsh-tools": "0.1.1-rc.2",
-    "@types/node": "^26.2.0",
+    "@types/node": "^20",
     "typescript": "^5.7.0"
   }
 }
