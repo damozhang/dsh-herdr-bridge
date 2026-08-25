@@ -1,0 +1,32 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11
+
+      # pnpm 11 requires node >=22.13, so this is the version pnpm runs on --
+      # not the plugin's supported floor. That floor is engines.node >=20, and
+      # it is enforced at type level by the pinned @types/node ^20 in typecheck.
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - run: pnpm run typecheck
+
+      # dist/ is committed (a prepare script would break `dsh plugin add
+      # github:...`), so a rebuild must leave the tree clean.
+      - run: pnpm run check:dist

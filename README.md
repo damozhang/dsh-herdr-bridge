@@ -95,9 +95,16 @@ herdr_workspace_close <workspaceId>
 ## Development
 
 ```sh
-pnpm install        # pulls @deepseek-ai/dsh-tools
+pnpm install        # installs devDependencies
+pnpm run build      # compile src/ to dist/ — required before committing a source change
 dsh plugin --profile web add /abs/path/to/this/repo
 ```
+
+**`dist/` is committed on purpose.** The plugin ships compiled JavaScript: `main` points at `dist/index.js`, never at `src/index.ts`, because Node refuses to strip types from any `.ts` file resolved under `node_modules` — and `dsh plugin add` always installs into `node_modules`. The build cannot be deferred to install time either: pnpm rejects a git-hosted package that carries a `prepare` (or any build) script unless the consumer allowlists it in `pnpm-workspace.yaml`, which would break `dsh plugin add github:...` for everyone. Committing the build is what keeps all three install sources working with no consumer configuration.
+
+So: **run `pnpm run build` and commit `dist/` in the same commit as any `src/` change**, or installers will get the previous build.
+
+`@deepseek-ai/dsh-tools` is a `peerDependency`, not a regular dependency, so the plugin binds to the single copy the host dsh runtime already loaded instead of pulling a second, possibly stale one into the profile.
 
 Schema notes: the dsh value-schema DSL is stricter than JSON Schema — `required` lives per-field, and `object` schemas must declare `additionalProperties` explicitly.
 
