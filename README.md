@@ -95,9 +95,14 @@ herdr_workspace_close <workspaceId>
 ## Development
 
 ```sh
-pnpm install        # pulls @deepseek-ai/dsh-tools
+pnpm install        # installs devDependencies and builds dist/ via the prepare script
+pnpm run build      # rebuild after editing src/
 dsh plugin --profile web add /abs/path/to/this/repo
 ```
+
+The plugin ships compiled JavaScript: `main` points at `dist/index.js`, built from `src/` by `tsc`. Node refuses to strip types from any `.ts` file resolved under `node_modules`, so a plugin must never point `main` at raw TypeScript. `dist/` is built by the `prepare` script on install (including installs from GitHub) and is not committed.
+
+`@deepseek-ai/dsh-tools` is a `peerDependency`, not a regular dependency, so the plugin binds to the single copy the host dsh runtime already loaded instead of pulling a second, possibly stale one into the profile.
 
 Schema notes: the dsh value-schema DSL is stricter than JSON Schema — `required` lives per-field, and `object` schemas must declare `additionalProperties` explicitly.
 
